@@ -1,2 +1,5 @@
 #!/bin/bash
+# 102-odd: prints every other line starting with the first
+
+# read from stdin and print odd-numbered lines
 awk 'NR % 2 == 1'
