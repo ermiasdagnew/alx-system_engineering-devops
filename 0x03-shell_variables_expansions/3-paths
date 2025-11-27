@@ -1,3 +1,10 @@
+cat <<'EOF' > 3-paths
 #!/bin/bash
-# Set the field separator to a colon, then print the number of fields
-echo "$PATH" | awk -F: '{print NF}'
+
+# Use 'grep -o' to find all non-empty matches using a regex pattern.
+# The pattern '[^:]+' matches one or more characters that are *not* a colon.
+# This approach handles empty path elements correctly as per the prompt's examples.
+COUNT=$(echo "$PATH" | grep -o '[^:]+' | wc -l)
+
+echo "$COUNT"
+EOF
