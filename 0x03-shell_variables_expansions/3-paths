@@ -1,10 +1,2 @@
-cat <<'EOF' > 3-paths
 #!/bin/bash
-
-# Use 'grep -o' to find all non-empty matches using a regex pattern.
-# The pattern '[^:]+' matches one or more characters that are *not* a colon.
-# This approach handles empty path elements correctly as per the prompt's examples.
-COUNT=$(echo "$PATH" | grep -o '[^:]+' | wc -l)
-
-echo "$COUNT"
-EOF
+echo "$PATH" | tr ':' '\n' | grep -c .
