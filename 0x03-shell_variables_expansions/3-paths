@@ -1,2 +1,3 @@
 #!/bin/bash
-echo "$PATH" | tr ':' '\n' | grep -c .
+# Set the field separator to a colon, then print the number of fields
+echo "$PATH" | awk -F: '{print NF}'
