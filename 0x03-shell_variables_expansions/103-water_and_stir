@@ -1,2 +1,58 @@
 #!/bin/bash
-echo $(( $(echo $WATER | tr 'ewwatratewa' '0123456789') + $(echo $STIR | tr 'ti.itirtrtr' '0123456789') )) | tr '0123456789' 'shtbeolhc'
+# File: 103-water_and_stir
+
+# Map each custom base to decimal using a string of characters
+WATER_BASE="ewatr"     # Example base characters for WATER (base 5)
+STIR_BASE="tir"        # Example base characters for STIR (base 3)
+BESTCHOL_BASE="shtbeolhc"  # Base characters for output
+
+# Function to convert a number from a custom base to decimal
+to_decimal() {
+    local num="$1"
+    local base_chars="$2"
+    local base_len=${#base_chars}
+    local dec=0
+    local digit
+    for (( i=0; i<${#num}; i++ )); do
+        digit="${num:$i:1}"
+        # Find the index of the digit in the base_chars string
+        for (( j=0; j<base_len; j++ )); do
+            if [ "${base_chars:$j:1}" == "$digit" ]; then
+                dec=$((dec * base_len + j))
+                break
+            fi
+        done
+    done
+    echo "$dec"
+}
+
+# Function to convert a decimal number to a custom base
+from_decimal() {
+    local dec="$1"
+    local base_chars="$2"
+    local base_len=${#base_chars}
+    local result=""
+    if [ "$dec" -eq 0 ]; then
+        echo "${base_chars:0:1}"
+        return
+    fi
+    while [ "$dec" -gt 0 ]; do
+        remainder=$((dec % base_len))
+        result="${base_chars:$remainder:1}$result"
+        dec=$((dec / base_len))
+    done
+    echo "$result"
+}
+
+# Convert WATER and STIR to decimal
+water_dec=$(to_decimal "$WATER" "$WATER_BASE")
+stir_dec=$(to_decimal "$STIR" "$STIR_BASE")
+
+# Add the numbers
+sum_dec=$((water_dec + stir_dec))
+
+# Convert the result to bestchol base
+sum_bestchol=$(from_decimal "$sum_dec" "$BESTCHOL_BASE")
+
+# Print the result
+echo "$sum_bestchol"
